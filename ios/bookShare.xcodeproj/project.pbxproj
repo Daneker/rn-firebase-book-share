@@ -5,7 +5,6 @@
 	};
 	objectVersion = 46;
 	objects = {
-
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -37,6 +36,18 @@
 		5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
+		B7A14C6BF0ED4D22B62595D0 /* libRNFirebase.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C47E2F1523F84189B057E290 /* libRNFirebase.a */; };
+		9061B01B48944C7AB4DAF7FA /* AlpEkran.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9E4B2253B977459082EF49A2 /* AlpEkran.ttf */; };
+		C60EBAE130A04D9E97340C57 /* Montserrat-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C907C7EC1FC94E32AB1782CF /* Montserrat-Light.ttf */; };
+		97CA739E0F91429185B133AD /* Montserrat-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 825A6F599FDB47CCB3A60528 /* Montserrat-Regular.ttf */; };
+		E0C7862030124ABA96BACB38 /* Montserrat-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BEF848A96BA440D096352753 /* Montserrat-SemiBold.ttf */; };
+		26F41A1C35D543C5A5AF38E3 /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8F205651B44943F59E1F17C6 /* OpenSans-Bold.ttf */; };
+		A269118BCAAF4896B24B679F /* OpenSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 137D96BFAF1C4D798409AFAA /* OpenSans-Light.ttf */; };
+		FCE54A917FFF406D8AC69D53 /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5AA14C8004DB48228C1DD088 /* OpenSans-Regular.ttf */; };
+		8493209F1B58447ABD84166E /* Volkhov-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 73415B8AC0A6464E90E3AF09 /* Volkhov-Bold.ttf */; };
+		E8F0AAE0B582404CAF8860A1 /* Volkhov-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DBC9C7342C364E00A16E2739 /* Volkhov-BoldItalic.ttf */; };
+		76BD9922BC8C41F29748A539 /* Volkhov-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 49889005985643AA9D3D12AD /* Volkhov-Italic.ttf */; };
+		45BB291BB5A648989A8D4377 /* Volkhov-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F00DAB5AC2E14080B3BD139A /* Volkhov-Regular.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -286,6 +297,19 @@
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
 		ADBDB91F1DFEBF0600ED6528 /* RCTBlob.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTBlob.xcodeproj; path = "../node_modules/react-native/Libraries/Blob/RCTBlob.xcodeproj"; sourceTree = "<group>"; };
+		A4B64377374244D2A4F40BB9 /* RNFirebase.xcodeproj */ = {isa = PBXFileReference; name = "RNFirebase.xcodeproj"; path = "../node_modules/react-native-firebase/ios/RNFirebase.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		C47E2F1523F84189B057E290 /* libRNFirebase.a */ = {isa = PBXFileReference; name = "libRNFirebase.a"; path = "libRNFirebase.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		9E4B2253B977459082EF49A2 /* AlpEkran.ttf */ = {isa = PBXFileReference; name = "AlpEkran.ttf"; path = "../src/assets/fonts/AlpEkran.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		C907C7EC1FC94E32AB1782CF /* Montserrat-Light.ttf */ = {isa = PBXFileReference; name = "Montserrat-Light.ttf"; path = "../src/assets/fonts/Montserrat-Light.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		825A6F599FDB47CCB3A60528 /* Montserrat-Regular.ttf */ = {isa = PBXFileReference; name = "Montserrat-Regular.ttf"; path = "../src/assets/fonts/Montserrat-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		BEF848A96BA440D096352753 /* Montserrat-SemiBold.ttf */ = {isa = PBXFileReference; name = "Montserrat-SemiBold.ttf"; path = "../src/assets/fonts/Montserrat-SemiBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		8F205651B44943F59E1F17C6 /* OpenSans-Bold.ttf */ = {isa = PBXFileReference; name = "OpenSans-Bold.ttf"; path = "../src/assets/fonts/OpenSans-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		137D96BFAF1C4D798409AFAA /* OpenSans-Light.ttf */ = {isa = PBXFileReference; name = "OpenSans-Light.ttf"; path = "../src/assets/fonts/OpenSans-Light.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		5AA14C8004DB48228C1DD088 /* OpenSans-Regular.ttf */ = {isa = PBXFileReference; name = "OpenSans-Regular.ttf"; path = "../src/assets/fonts/OpenSans-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		73415B8AC0A6464E90E3AF09 /* Volkhov-Bold.ttf */ = {isa = PBXFileReference; name = "Volkhov-Bold.ttf"; path = "../src/assets/fonts/Volkhov-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		DBC9C7342C364E00A16E2739 /* Volkhov-BoldItalic.ttf */ = {isa = PBXFileReference; name = "Volkhov-BoldItalic.ttf"; path = "../src/assets/fonts/Volkhov-BoldItalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		49889005985643AA9D3D12AD /* Volkhov-Italic.ttf */ = {isa = PBXFileReference; name = "Volkhov-Italic.ttf"; path = "../src/assets/fonts/Volkhov-Italic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		F00DAB5AC2E14080B3BD139A /* Volkhov-Regular.ttf */ = {isa = PBXFileReference; name = "Volkhov-Regular.ttf"; path = "../src/assets/fonts/Volkhov-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -314,6 +338,7 @@
 				832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */,
 				00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */,
 				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
+				B7A14C6BF0ED4D22B62595D0 /* libRNFirebase.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -491,6 +516,7 @@
 				832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */,
 				00C302DF1ABCB9EE00DB3ED1 /* RCTVibration.xcodeproj */,
 				139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */,
+				A4B64377374244D2A4F40BB9 /* RNFirebase.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -512,6 +538,7 @@
 				00E356EF1AD99517003FC87E /* bookShareTests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
+				065E45048495400B967275D7 /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -537,6 +564,25 @@
 			);
 			name = Products;
 			sourceTree = "<group>";
+		};
+		065E45048495400B967275D7 /* Resources */ = {
+			isa = "PBXGroup";
+			children = (
+				9E4B2253B977459082EF49A2 /* AlpEkran.ttf */,
+				C907C7EC1FC94E32AB1782CF /* Montserrat-Light.ttf */,
+				825A6F599FDB47CCB3A60528 /* Montserrat-Regular.ttf */,
+				BEF848A96BA440D096352753 /* Montserrat-SemiBold.ttf */,
+				8F205651B44943F59E1F17C6 /* OpenSans-Bold.ttf */,
+				137D96BFAF1C4D798409AFAA /* OpenSans-Light.ttf */,
+				5AA14C8004DB48228C1DD088 /* OpenSans-Regular.ttf */,
+				73415B8AC0A6464E90E3AF09 /* Volkhov-Bold.ttf */,
+				DBC9C7342C364E00A16E2739 /* Volkhov-BoldItalic.ttf */,
+				49889005985643AA9D3D12AD /* Volkhov-Italic.ttf */,
+				F00DAB5AC2E14080B3BD139A /* Volkhov-Regular.ttf */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+			path = "";
 		};
 /* End PBXGroup section */
 
@@ -619,7 +665,7 @@
 		83CBB9F71A601CBA00E9B192 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0610;
+				LastUpgradeCheck = 610;
 				ORGANIZATIONNAME = Facebook;
 				TargetAttributes = {
 					00E356ED1AD99517003FC87E = {
@@ -928,6 +974,17 @@
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
+				9061B01B48944C7AB4DAF7FA /* AlpEkran.ttf in Resources */,
+				C60EBAE130A04D9E97340C57 /* Montserrat-Light.ttf in Resources */,
+				97CA739E0F91429185B133AD /* Montserrat-Regular.ttf in Resources */,
+				E0C7862030124ABA96BACB38 /* Montserrat-SemiBold.ttf in Resources */,
+				26F41A1C35D543C5A5AF38E3 /* OpenSans-Bold.ttf in Resources */,
+				A269118BCAAF4896B24B679F /* OpenSans-Light.ttf in Resources */,
+				FCE54A917FFF406D8AC69D53 /* OpenSans-Regular.ttf in Resources */,
+				8493209F1B58447ABD84166E /* Volkhov-Bold.ttf in Resources */,
+				E8F0AAE0B582404CAF8860A1 /* Volkhov-BoldItalic.ttf in Resources */,
+				76BD9922BC8C41F29748A539 /* Volkhov-Italic.ttf in Resources */,
+				45BB291BB5A648989A8D4377 /* Volkhov-Regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1059,6 +1116,14 @@
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/bookShare.app/bookShare";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
+				);
 			};
 			name = Debug;
 		};
@@ -1076,6 +1141,14 @@
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/bookShare.app/bookShare";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
+				);
 			};
 			name = Release;
 		};
@@ -1094,6 +1167,10 @@
 				);
 				PRODUCT_NAME = bookShare;
 				VERSIONING_SYSTEM = "apple-generic";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
+				);
 			};
 			name = Debug;
 		};
@@ -1111,6 +1188,10 @@
 				);
 				PRODUCT_NAME = bookShare;
 				VERSIONING_SYSTEM = "apple-generic";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
+				);
 			};
 			name = Release;
 		};
@@ -1137,6 +1218,14 @@
 				SDKROOT = appletvos;
 				TARGETED_DEVICE_FAMILY = 3;
 				TVOS_DEPLOYMENT_TARGET = 9.2;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
+				);
 			};
 			name = Debug;
 		};
@@ -1163,6 +1252,14 @@
 				SDKROOT = appletvos;
 				TARGETED_DEVICE_FAMILY = 3;
 				TVOS_DEPLOYMENT_TARGET = 9.2;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
+				);
 			};
 			name = Release;
 		};
@@ -1184,6 +1281,10 @@
 				SDKROOT = appletvos;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/bookShare-tvOS.app/bookShare-tvOS";
 				TVOS_DEPLOYMENT_TARGET = 10.1;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+				);
 			};
 			name = Debug;
 		};
@@ -1205,6 +1306,10 @@
 				SDKROOT = appletvos;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/bookShare-tvOS.app/bookShare-tvOS";
 				TVOS_DEPLOYMENT_TARGET = 10.1;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+				);
 			};
 			name = Release;
 		};

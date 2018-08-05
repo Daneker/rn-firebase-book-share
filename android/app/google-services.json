@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "660900110511",
+    "firebase_url": "https://react-firebase-b1a7a.firebaseio.com",
+    "project_id": "react-firebase-b1a7a",
+    "storage_bucket": "react-firebase-b1a7a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:660900110511:android:563943d00199cd62",
+        "android_client_info": {
+          "package_name": "com.bookshare"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "660900110511-8b1apnrqm7c148jpq7nqqkhl3tu75d1f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB65h4KIbLH-QGE8XixKna91gW-s6y1Now"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
