@@ -9,19 +9,10 @@ import {
 	StyleSheet,
 	ListView
 } from 'react-native';
-// import * as firebase from "firebase";
 import firebase from 'react-native-firebase';
-
-// const config = {
-//   apiKey: "AIzaSyCDkZYueY4tOxghhoeKms6hPlWeiiJ_a8s",
-//   authDomain: "react-firebase-b1a7a.firebaseapp.com",
-//   databaseURL: "https://react-firebase-b1a7a.firebaseio.com",
-//   projectId: "react-firebase-b1a7a",
-//   storageBucket: "react-firebase-b1a7a.appspot.com",
-//   messagingSenderId: "660900110511"
-// };
-
-// firebase.initializeApp(config);
+import RNFetchBlob from 'rn-fetch-blob';
+// import CameraRollPicker from 'react-native-camera-roll-picker';
+// import RNFetchBlob from 'react-native-fetch-blob';
 
 export default class EditBook extends Component {
 	static navigationOptions = {
@@ -31,71 +22,96 @@ export default class EditBook extends Component {
 		}
 	};
 
+	constructor() {
+		super();
+		this.ref = firebase.firestore().collection('books');
+		this.unsubscribe = null;
+
+		this.state = {
+			loading: true,
+			books: [],
+			title: '',
+			authors: '',
+			description: '',
+			imageUrl: null
+		};
+	}
+
 	componentDidMount() {
-		console.log(firebase);
-		// let that = this;
-		// firebase
-		// 	.database()
-		// 	.ref('/books')
-		// 	.on('child_added', function(data) {
-		// 		var newData = [...that.state.listViewData];
-		// 		newData.push(data);
-		// 		that.setState({ listViewData: newData });
-		// 	});
+		console.log(RNFetchBlob);
+		this.unsubscribe = this.ref.onSnapshot(this.onCollectionUpdate);
 	}
 
-	handelUploadButtonPress = async () => {
-		await Permissions.askAsync(Permissions.CAMERA_ROLL);
-		const result = await ImagePicker.launchImageLibraryAsync();
-		// const photo = await ImagePicker.launchCameraAsync();
-		if (!result.cancelled) {
-			this.uploadImage(result.uri, 'test-image')
-				.then(() => {
-					Alert.alert('Success');
-				})
-				.catch(error => {
-					Alert.alert(error);
-				});
-		}
+	componentWillUnmount() {
+		this.unsubscribe();
+	}
+	onCollectionUpdate = querySnapshot => {
+		const books = [];
+		querySnapshot.forEach(doc => {
+			const { title, authors, description, imageUrl } = doc.data();
+			books.push({
+				key: doc.id,
+				doc,
+				title,
+				authors,
+				description,
+				imageUrl
+			});
+			this.setState({
+				books,
+				loading: false
+			});
+		});
 	};
 
-	uploadImage = async (uri, imageName) => {
-		const response = await fetch(uri);
-		const blob = await response.blob();
-
-		// let ref = firebase
-		// 	.storage()
-		// 	.ref()
-		// 	.child('images/' + imageName);
-
-		// let ref = firebase
-		//   .database()
-		//   .ref("/books")
-		//   .child(imageName)
-		//   .set({ url: imageName });
-
-		// return ref.put(blob);
-	};
-
-	addBook(data) {
-		let key = firebase
-			.database()
-			.ref('/contacts')
-			.push().key;
-		firebase
-			.database()
-			.ref('/contacts')
-			.child(key)
-			.set({ name: data });
-	}
-
-	searchUpdated(text) {
-		this.setState({ searchText: text });
-	}
-
-	onNext = () => {
+	onAddBook = () => {
+		this.ref.add({
+			title: this.state.title,
+			authors: this.state.authors,
+			description: this.state.description,
+			imageUrl: this.state.imageUrl
+		});
 		this.props.navigation.navigate('GenreCafeScreen');
 	};
+
+	onPickImage = (selectedImages, currentImage) => {
+		const image = currentImage.uri;
+		const Blob = RNFetchBlob.polyfill.Blob;
+		const fs = RNFetchBlob.fs;
+		window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest;
+		window.Blob = Blob;
+
+		let uploadBlob = null;
+		const imageRef = firebase
+			.storage()
+			.ref('posts')
+			.child('test.jpg');
+		let mime = 'image/jpg';
+		fs.readFile(image, 'base64')
+			.then(data => {
+				return Blob.build(data, { type: `${mime};BASE64` });
+			})
+			.then(blob => {
+				uploadBlob = blob;
+				return imageRef.put(blob, { contentType: mime });
+			})
+			.then(() => {
+				uploadBlob.close();
+				return imageRef.getDownloadURL();
+			})
+			.then(url => {
+				// URL of the image uploaded on Firebase storage
+				console.log(url);
+				this.setState({ imageUrl: url });
+			})
+			.catch(error => {
+				console.log(error);
+			});
+	};
+
+	// onNext = () => {
+	// 	this.props.navigation.navigate('GenreCafeScreen');
+	// };
 
 	render() {
 		return <View style={{ flex: 1, backgroundColor: 'red' }} />;
@@ -131,6 +147,7 @@ export default class EditBook extends Component {
 								value={item.volumeInfo.title}
 								multiline={true}
 								numberOfLines={4}
+								onChangeText={text => this.setState({ title: text })}
 							/>
 							<Text style={styles.title}>Авторы</Text>
 							<TextInput
@@ -138,6 +155,7 @@ export default class EditBook extends Component {
 								value={authors}
 								multiline={true}
 								numberOfLines={4}
+								onChangeText={text => this.setState({ authors: text })}
 							/>
 							<Text style={styles.title}>Описание</Text>
 							<TextInput
@@ -145,14 +163,15 @@ export default class EditBook extends Component {
 								multiline={true}
 								numberOfLines={4}
 								value={description}
+								onChangeText={text => this.setState({ description: text })}
 							/>
-							<TouchableOpacity onPress={this.handelUploadButtonPress}>
+							<TouchableOpacity onPress={this.onPickImage}>
 								<Image style={styles.imageComponentStyle} source={url} />
 							</TouchableOpacity>
 						</View>
 					</View>
 				</ScrollView>
-				<TouchableOpacity style={styles.btnLogIn} onPress={this.onNext}>
+				<TouchableOpacity style={styles.btnLogIn} onPress={this.onAddBook}>
 					<Text style={styles.btnLogInText}>Дальше</Text>
 				</TouchableOpacity>
 			</View>
