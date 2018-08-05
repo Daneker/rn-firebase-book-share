@@ -1,0 +1,193 @@
+import {
+  Platform,
+  StyleSheet,
+  Dimensions,
+} from 'react-native'
+
+const { width, height } = Dimensions.get('window'),
+  vw = width / 100,
+  vh = height / 100
+
+const RTL = false;
+
+const styles = StyleSheet.create({
+  body: {
+    flex: 1,
+    backgroundColor: '#fff',
+    width: width,
+  },
+  headerIcon: {
+    height: 40,
+    position: 'absolute',
+    top: 0,
+    width: width,
+    zIndex: 4,
+  },
+  boxContent: {
+    width: width - 30,
+    marginTop: Platform.OS == 'android' ? 35 : 20,
+  },
+  content: {
+    marginLeft: 14,
+    marginTop: 20,
+    marginBottom: 30,
+  },
+  scrollViewContent: {
+    // "marginTop": Constants.Window.height/2 + 110,
+    marginTop: -50,
+    marginBottom: 100,
+    zIndex: 9999,
+  },
+  header: {
+    backgroundColor: 'rgba(0, 0, 0, 1)',
+    height: 0.7 * height -120,
+    justifyContent: 'flex-end',
+    alignItems: 'flex-start',
+  },
+  imageBackGround: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    width: width,
+    height: 0.725 * height,
+    // resizeMode: 'cover',
+  },
+  linearGradientBox: {
+    width: width,
+    paddingTop: 5,
+    paddingBottom: 12,
+    bottom: 0,
+    left: 0,
+    zIndex: 9,
+  },
+  detailDesc: {
+    color: 'rgba(255, 255, 255, 0.9)',
+    marginRight: 16,
+    marginLeft: 13,
+    fontWeight: '500',
+    fontSize: 32,
+    fontFamily: 'Montserrat',
+    textAlign: RTL ? 'right' : 'left',
+    backgroundColor: 'transparent',
+    zIndex: 9999,
+    ...Platform.select({
+      android: {
+        top : -50
+      }
+    })
+  },
+  subTitle: {
+    color: '#FFF',
+    marginRight: 16,
+    marginLeft: 13,
+    marginBottom: 10,
+    fontSize: 16,
+    marginTop: Platform.OS == 'ios' ? 10 : 4,
+    fontFamily: 'MontserratLight',
+    textAlign: RTL ? 'right' : 'left',
+    backgroundColor: 'transparent',
+    zIndex: 9999,
+  },
+  shareIcon: {
+    flexDirection: 'row',
+    width: 100,
+    position: 'absolute',
+    right: 0,
+    bottom: 16,
+  },
+  row: {
+    flexDirection: 'row',
+    paddingTop: 4,
+    paddingBottom: 4,
+    paddingLeft: 14,
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    zIndex: 9999,
+  },
+  descTitle: {
+    color: 'rgb(69,69,83)',
+    fontSize: 24,
+    marginLeft: 12,
+    fontFamily: 'MontserratLight',
+  },
+  content: {
+    color: '#666',
+    fontSize: 13,
+    lineHeight: 22,
+    marginTop: 12,
+    marginRight: 12,
+    marginBottom: 12,
+    marginLeft: 12,
+    alignSelf: 'flex-start',
+    fontFamily: 'MontserratLight',
+  },
+  linearTop: {
+    position: 'absolute',
+    height: 40, 
+    top: 0, 
+    left: 0, 
+    right: 0,
+    bottom: 0,
+    zIndex: 99
+  },
+  shareIcons: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    position: 'absolute',
+    width: width,
+    right: 4,
+    top: 8,
+    zIndex: 999,
+  },
+  label: {
+    width: 80,
+    paddingLeft: 12,
+    paddingTop: Platform.OS == 'android' ? 4 : 4,
+    fontSize: 11,
+    color: '#FFF',
+    fontFamily: 'MontserratBold',
+    lineHeight: 18,
+  },
+  text: {
+    color: '#FFF',
+    fontSize: 12,
+    paddingTop: Platform.OS == 'android' ? 4 : 5,
+    width: width / 2,
+    lineHeight: 18,
+    fontFamily: 'MontserratLight',
+    alignSelf: 'flex-start',
+  },
+  fab: {
+    position: 'absolute',
+    right: 12,
+    height: 40,
+    width: 40,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 50,
+    backgroundColor: 'rgba(51, 51, 51, 0.95)',
+    elevation: 5,
+    shadowColor: '#000',
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    shadowOffset: { width: 0, height: 2 },
+  },
+  shareIcon: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    position: 'absolute',
+    width: Platform.OS === 'android' ? width / 2 - 70 : width / 2 - 90,
+    right: 15,
+    top: 15,
+    zIndex: 9999,
+  },
+  newsIcons: {
+    marginLeft: 2,
+    paddingTop: 3,
+    paddingRight: 5,
+    paddingBottom: 8,
+    paddingLeft: 5,
+  },
+})
+export default styles;
