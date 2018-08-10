@@ -7,12 +7,14 @@ import {
 	Image,
 	View,
 	StyleSheet,
-	ListView
+	ListView,
+	Platform,
+	ActivityIndicator
 } from 'react-native';
 import firebase from 'react-native-firebase';
 import RNFetchBlob from 'rn-fetch-blob';
-// import CameraRollPicker from 'react-native-camera-roll-picker';
-// import RNFetchBlob from 'react-native-fetch-blob';
+import ImagePicker from 'react-native-image-picker';
+import { TextField } from './components/TextField';
 
 export default class EditBook extends Component {
 	static navigationOptions = {
@@ -29,110 +31,109 @@ export default class EditBook extends Component {
 
 		this.state = {
 			loading: true,
-			books: [],
 			title: '',
 			authors: '',
 			description: '',
-			imageUrl: null
+			imageUrl: null,
+			loading: false
 		};
 	}
 
 	componentDidMount() {
-		console.log(RNFetchBlob);
-		this.unsubscribe = this.ref.onSnapshot(this.onCollectionUpdate);
+		this.configInitialState();
 	}
 
-	componentWillUnmount() {
-		this.unsubscribe();
-	}
-	onCollectionUpdate = querySnapshot => {
-		const books = [];
-		querySnapshot.forEach(doc => {
-			const { title, authors, description, imageUrl } = doc.data();
-			books.push({
-				key: doc.id,
-				doc,
-				title,
-				authors,
-				description,
-				imageUrl
-			});
+	configInitialState = () => {
+		if (this.props.navigation.getParam('book', 'default') != 'empty') {
+			const item = this.props.navigation.getParam('book', 'default');
+			const url = item.volumeInfo.imageLinks
+				? item.volumeInfo.imageLinks.thumbnail
+				: 'http://squamafoils.com/wp-content/uploads/2015/07/import_placeholder.png';
+
+			const authors = item.volumeInfo.authors
+				? item.volumeInfo.authors[0]
+				: 'No author';
+
+			const description = item.volumeInfo.description
+				? item.volumeInfo.description
+				: 'Description is not available';
+
 			this.setState({
-				books,
-				loading: false
+				title: item.volumeInfo.title,
+				authors: authors,
+				description: description,
+				imageUrl: url
 			});
-		});
+		} else {
+			this.setState({
+				title: '',
+				authors: '',
+				description: '',
+				imageUrl:
+					'http://squamafoils.com/wp-content/uploads/2015/07/import_placeholder.png'
+			});
+		}
 	};
 
-	onAddBook = () => {
-		this.ref.add({
+	onNext = () => {
+		// console.log('67 state', this.state);
+		this.props.navigation.navigate('GenreCafeScreen', {
 			title: this.state.title,
 			authors: this.state.authors,
 			description: this.state.description,
 			imageUrl: this.state.imageUrl
 		});
-		this.props.navigation.navigate('GenreCafeScreen');
 	};
 
-	onPickImage = (selectedImages, currentImage) => {
-		const image = currentImage.uri;
-		const Blob = RNFetchBlob.polyfill.Blob;
-		const fs = RNFetchBlob.fs;
-		window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest;
-		window.Blob = Blob;
+	imagePicker = () => {
+		ImagePicker.showImagePicker(response => {
+			if (!response.didCancel) {
+				this.uploadImage(response.uri, response).catch(error =>
+					console.log(error)
+				);
+			}
+		});
+	};
 
-		let uploadBlob = null;
+	uploadImage = (uri, image) => {
+		const imageName = (Platform.OS === 'ios' ? uri.replace('file://', '') : uri)
+			.split('/')
+			.pop();
 		const imageRef = firebase
 			.storage()
 			.ref('posts')
-			.child('test.jpg');
-		let mime = 'image/jpg';
-		fs.readFile(image, 'base64')
-			.then(data => {
-				return Blob.build(data, { type: `${mime};BASE64` });
-			})
-			.then(blob => {
-				uploadBlob = blob;
-				return imageRef.put(blob, { contentType: mime });
-			})
-			.then(() => {
-				uploadBlob.close();
-				return imageRef.getDownloadURL();
-			})
-			.then(url => {
-				// URL of the image uploaded on Firebase storage
-				console.log(url);
-				this.setState({ imageUrl: url });
-			})
-			.catch(error => {
-				console.log(error);
-			});
+			.child(imageName + '.jpeg');
+
+		// console.log('uri is on 94 -> ', uri);
+
+		return new Promise((resolve, reject) =>
+			imageRef
+				.putFile(image.path)
+				// .then(imageRef.getDownloadURL)
+				.then(url => {
+					resolve(url);
+					// console.log('100 url ->', url);
+					this.setState({ imageUrl: url.downloadURL, loading: true });
+				})
+				.catch(error => {
+					console.log('Error while saving the image.. ', error);
+				})
+		);
 	};
 
-	// onNext = () => {
-	// 	this.props.navigation.navigate('GenreCafeScreen');
-	// };
+	setTitle = title => {
+		this.setState({ title });
+	};
+
+	setAuthors = authors => {
+		this.setState({ authors });
+	};
+
+	setDescription = description => {
+		this.setState({ description });
+	};
 
 	render() {
-		return <View style={{ flex: 1, backgroundColor: 'red' }} />;
-
-		const item = this.props.navigation.getParam('book', 'default');
-		// console.log(item)
-		const url = item.volumeInfo.imageLinks
-			? { uri: item.volumeInfo.imageLinks.thumbnail }
-			: {
-					uri:
-						'http://squamafoils.com/wp-content/uploads/2015/07/import_placeholder.png'
-			  };
-
-		const authors = item.volumeInfo.authors
-			? item.volumeInfo.authors[0]
-			: 'No author';
-
-		const description = item.volumeInfo.description
-			? item.volumeInfo.description
-			: 'Description is not available';
-
 		return (
 			<View style={styles.container}>
 				<ScrollView
@@ -141,37 +142,35 @@ export default class EditBook extends Component {
 				>
 					<View>
 						<View style={{ flex: 1, flexDirection: 'column', margin: 1 }}>
-							<Text style={styles.title}>Название</Text>
-							<TextInput
-								style={styles.searchInput}
-								value={item.volumeInfo.title}
-								multiline={true}
-								numberOfLines={4}
-								onChangeText={text => this.setState({ title: text })}
+							<TextField
+								title="Название"
+								setText={this.setTitle}
+								value={this.state.title}
 							/>
-							<Text style={styles.title}>Авторы</Text>
-							<TextInput
-								style={styles.searchInput}
-								value={authors}
-								multiline={true}
-								numberOfLines={4}
-								onChangeText={text => this.setState({ authors: text })}
+							<TextField
+								title="Авторы"
+								setText={this.setAuthors}
+								value={this.state.authors}
 							/>
-							<Text style={styles.title}>Описание</Text>
-							<TextInput
-								style={[styles.searchInput, { minHeight: 120 }]}
-								multiline={true}
-								numberOfLines={4}
-								value={description}
-								onChangeText={text => this.setState({ description: text })}
+							<TextField
+								title="Описание"
+								setText={this.setDescription}
+								value={this.state.description}
+								style={{ minHeight: 120 }}
 							/>
-							<TouchableOpacity onPress={this.onPickImage}>
-								<Image style={styles.imageComponentStyle} source={url} />
+							<TouchableOpacity onPress={this.imagePicker}>
+								{/* {this.state.loading && (
+									<ActivityIndicator size="small" color="#00ff00" />
+								)} */}
+								<Image
+									style={styles.imageComponentStyle}
+									source={{ uri: this.state.imageUrl }}
+								/>
 							</TouchableOpacity>
 						</View>
 					</View>
 				</ScrollView>
-				<TouchableOpacity style={styles.btnLogIn} onPress={this.onAddBook}>
+				<TouchableOpacity style={styles.btnLogIn} onPress={this.onNext}>
 					<Text style={styles.btnLogInText}>Дальше</Text>
 				</TouchableOpacity>
 			</View>
@@ -199,19 +198,6 @@ const styles = StyleSheet.create({
 		alignSelf: 'center',
 		marginTop: 5
 	},
-	searchInput: {
-		padding: 10,
-		borderColor: '#CCC',
-		borderWidth: 1,
-		borderRadius: 20,
-		paddingTop: 10,
-		paddingBottom: 10,
-		paddingLeft: 20,
-		paddingRight: 20,
-		margin: 10,
-		marginBottom: 20,
-		width: 340
-	},
 	btnLogIn: {
 		flexDirection: 'row',
 		padding: 10,
@@ -230,12 +216,5 @@ const styles = StyleSheet.create({
 		color: 'white',
 		fontWeight: 'bold',
 		fontSize: 14
-	},
-	title: {
-		paddingRight: 20,
-		marginLeft: 20,
-		color: 'gray',
-		fontSize: 14,
-		fontFamily: 'Montserrat'
 	}
 });

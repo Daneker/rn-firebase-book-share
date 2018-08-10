@@ -1,64 +1,94 @@
-import React, { Component } from "react";
-import { Text, View, TouchableOpacity, TextInput } from "react-native";
-import style from "./style";
-// import { Spinkit } from './components/Spinkit'
-// import { FontAwesome } from "@expo/vector-icons";
+import React, { Component } from 'react';
+import {
+	Text,
+	View,
+	TouchableOpacity,
+	TextInput,
+	AsyncStorage
+} from 'react-native';
+import style from './style';
+import firebase from 'react-native-firebase';
 
 class SignIn extends Component {
-  state = {
-    loading: false,
-    appLoading: false,
-    email: "",
-    password: ""
-  };
+	constructor() {
+		super();
+		this.unsubscribe = null;
 
-  updateLoading = status => this.setState({ loading: status });
+		this.state = {
+			loading: false,
+			appLoading: false,
+			email: '',
+			password: ''
+		};
+	}
 
-  loginUser = (email, password) => {};
+	// componentWillUnmount() {
+	// 	this.unsubscribeCol();
+	// }
 
-  async loginWithFacebook() {}
+	signInUser = (email, password) => {
+		console.log('asdadsas');
+		if (this.state.email === '' || this.state.password === '') {
+			return alert('Пусто');
+		}
+		firebase.auth().onAuthStateChanged(user => {
+			if (user) {
+				console.log('already authorized');
+				return;
+			}
+		});
+		try {
+			firebase
+				.auth()
+				.signInAndRetrieveDataWithEmailAndPassword(email, password)
+				.then(user => {
+					console.log('user', user);
+					this.props.navigate();
+				});
+		} catch (error) {
+			console.log(error);
+		}
+	};
 
-  render() {
-    if (this.state.appLoading) {
-      return <Spinkit size={30} type="FadingCircle" color="#FFFFFF" />;
-    }
-    return (
-      <View style={style.wrap}>
-        <View style={style.body}>
-          <View style={style.wrapForm}>
-            <View style={style.textInputWrap}>
-              <Text style={style.textLabel}>Почта</Text>
-              <TextInput
-                placeholder="Enter your email"
-                underlineColorAndroid="transparent"
-                style={style.textInput}
-                onChangeText={text => this.setState({ email: text })}
-              />
-            </View>
-            <View style={style.textInputWrap}>
-              <Text style={style.textLabel}>Пароль</Text>
-              <TextInput
-                placeholder="Type your password"
-                underlineColorAndroid="transparent"
-                style={style.textInput}
-                secureTextEntry={true}
-                onChangeText={text => this.setState({ password: text })}
-              />
-            </View>
-          </View>
-          <View style={style.wrapButton}>
-            <TouchableOpacity style={style.btnLogIn} onPress={this.loginUser}>
-              <Text style={style.btnLogInText}>Войти</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={style.btnLogIn} onPress={this.signUpUser}>
-              {/* <FontAwesome name="facebook" size={20} color="#3B5997" /> */}
-              <Text style={style.btnLogInLabel}>Facebook</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </View>
-    );
-  }
+	render() {
+		return (
+			<View style={style.wrap}>
+				<View style={style.body}>
+					<View style={style.wrapForm}>
+						<View style={style.textInputWrap}>
+							<Text style={style.textLabel}>Почта</Text>
+							<TextInput
+								placeholder="Введите почтовый адрес"
+								underlineColorAndroid="transparent"
+								style={style.textInput}
+								onChangeText={text => this.setState({ email: text })}
+							/>
+						</View>
+						<View style={style.textInputWrap}>
+							<Text style={style.textLabel}>Пароль</Text>
+							<TextInput
+								placeholder="Введите пароль"
+								underlineColorAndroid="transparent"
+								style={style.textInput}
+								secureTextEntry={true}
+								onChangeText={text => this.setState({ password: text })}
+							/>
+						</View>
+					</View>
+					<View style={style.wrapButton}>
+						<TouchableOpacity
+							style={style.btnLogIn}
+							onPress={() =>
+								this.signInUser(this.state.email, this.state.password)
+							}
+						>
+							<Text style={style.btnLogInText}>Войти</Text>
+						</TouchableOpacity>
+					</View>
+				</View>
+			</View>
+		);
+	}
 }
 
 export default SignIn;

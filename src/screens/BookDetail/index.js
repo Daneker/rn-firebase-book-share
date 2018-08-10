@@ -1,133 +1,167 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import {
-  Text,
-  Animated,
-  View,
-  Image,
-  ScrollView,
-  TouchableOpacity
-} from "react-native";
-// import { LinearGradient } from "expo";
-import styles from "./styles";
-// import { Ionicons, EvilIcons } from "@expo/vector-icons";
+	Text,
+	Animated,
+	View,
+	Image,
+	ScrollView,
+	TouchableOpacity
+} from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
+import styles from './styles';
+import { Icon } from 'react-native-elements';
+import firebase from 'react-native-firebase';
 
-// const description =
-//   "Tolstoy’s epic novel of love, destiny and self-destruction, in a gorgeous new clothbound edition from Penguin Classics. Anna Karenina seems to have everything – beauty, wealth, popularity and an adored son. But she feels that her life is empty until the moment she encounters the impetuous officer Count Vronsky. Their subsequent affair scandalizes society and family alike and soon brings jealously and bitterness in its wake. Contrasting with this tale of love and self-destruction is the vividly observed story of Levin, a man striving to find contentment and a meaning to his life – and also a self-portrait of Tolstoy himself. This acclaimed modern translation by Richard Pevear and Larissa Volokhonsky won the PEN/ Book of the Month Club Translation Prize in 2001.";
+const ref = firebase.firestore().collection('books');
+const refUser = firebase.firestore().collection('users');
 
 export default class BookDetail extends Component {
-  state = {
-    clicked: false,
-    url: ""
-  };
+	state = {
+		clicked: false,
+		selectedItem: null,
+		favorites: [],
+		loading: true
+	};
 
-  onClick = book => {
-    console.log("Click!");
-    this.setState({ clicked: !this.state.clicked });
-    console.log(book.url);
-  };
+	componentDidMount() {
+		const bookItem = this.props.navigation.getParam('book');
+		const favoritesBooks = this.props.navigation.getParam('favoriteBooks');
 
-  onShare = () => {};
+		console.log('bookItem', bookItem);
+		console.log('favoritesBooks', favoritesBooks);
 
-  renderBanner = book => {
-    return (
-      <Animated.View style={[styles.header]}>
-        <Image source={{ uri: book.url }} style={styles.imageBackGround} />
-        {/* <LinearGradient
-          style={styles.linearGradientBox}
-          colors={[
-            "rgba(51, 51, 51, 0)",
-            "rgba(51, 51, 51, 0.3)",
-            "rgba(51, 51, 51, 0.65)",
-            "rgba(51, 51, 51, 0.95)"
-          ]}
-        > */}
-        <Text style={styles.detailDesc}>{book.title}</Text>
-        {/* </LinearGradient> */}
-      </Animated.View>
-    );
-  };
+		const searchResult = favoritesBooks.filter(book => {
+			return book == bookItem.data.bookId;
+		});
 
-  renderHeadAddress = () => {
-    const location = "Dinmukhamed Qonayev St 12/1, Астана 010000";
-    const open = "Пн-Пт: 08:00 - 17:00";
+		if (searchResult.length > 0) {
+			this.setState({
+				isFav: true,
+				loading: false,
+				book: bookItem,
+				favoritesBooks: favoritesBooks
+			});
+		} else {
+			this.setState({
+				isFav: false,
+				loading: false,
+				book: bookItem,
+				favoritesBooks: favoritesBooks
+			});
+		}
+	}
 
-    return (
-      <View style={{ backgroundColor: "rgba(51, 51, 51, 0.95)" }}>
-        <Text style={styles.subTitle}>Traveler's Coffee</Text>
-        <View style={styles.row}>
-          <Text style={styles.label}>Локация</Text>
-          <Text style={styles.text}>{location}</Text>
-        </View>
-        <View style={styles.row}>
-          <Text style={styles.label}>Открыто</Text>
-          <Text style={styles.text}>{open}</Text>
-        </View>
-      </View>
-    );
-  };
+	addToFav = bookId => {
+		const updatedArray = [...this.state.favoritesBooks, bookId + ''];
+		console.log(updatedArray);
+		this.setState({ favoritesBooks: updatedArray });
+	};
 
-  renderContent = book => {
-    return (
-      <View>
-        {this.renderHeadAddress()}
-        <View style={styles.boxContent}>
-          <Text style={styles.descTitle}>Описание</Text>
-          <Text style={styles.content}>{book.description}</Text>
-        </View>
-      </View>
-    );
-  };
+	removeFromFav = bookId => {
+		const updatedArray = this.state.favoritesBooks.filter(
+			book => book !== bookId + ''
+		);
+		console.log(updatedArray);
+		this.setState({ favoritesBooks: updatedArray });
+	};
 
-  render() {
-    const { goBack } = this.props.navigation;
-    const book = this.props.navigation.getParam("book", "default");
-    const book3 = this.props.navigation.getParam("book3", "default");
-    const hitSlop = { top: 15, right: 15, left: 15, bottom: 15 };
-    return (
-      <View style={styles.body}>
-        <ScrollView>
-          {this.renderBanner(book3)}
-          <View style={[styles.shareIcon]}>
-            <TouchableOpacity onPress={this.onShare}>
-              {/* <EvilIcons
-                style={styles.newsIcons}
-                onPress={this.shareText}
-                name="share-google"
-                size={35}
-                color={"#fff"}
-                backgroundColor="transparent"
-              />
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => this.onClick(book3)}>
-              <Ionicons
-                style={styles.newsIcons}
-                name={!this.state.clicked ? "ios-heart-outline" : "ios-heart"}
-                size={30}
-                color={this.state.clicked ? "red" : "#FFF"}
-                onPress={this.readLater}
-                backgroundColor={"transparent"}
-              /> */}
-            </TouchableOpacity>
-          </View>
-          {this.renderContent(book)}
-        </ScrollView>
-        <TouchableOpacity
-          style={[styles.fab, { bottom: 15 }]}
-          onPress={() => goBack()}
-          activeOpacity={0}
-          hitSlop={hitSlop}
-        >
-          {/* <Ionicons
-            onPress={() => goBack()}
-            color={"#fff"}
-            iconStyle={{ backgroundColor: "transparent", left: 5 }}
-            borderRadius={50}
-            backgroundColor={"transparent"}
-            name={"ios-close"}
-            size={25}
-          /> */}
-        </TouchableOpacity>
-      </View>
-    );
-  }
+	onClick = book => {
+		if (this.state.isFav) {
+			this.removeFromFav(book.data.bookId);
+		} else {
+			this.addToFav(book.data.bookId);
+		}
+
+		this.setState({ isFav: !this.state.isFav });
+	};
+
+	renderBanner = book => {
+		return (
+			<Animated.View style={[styles.header]}>
+				<Image source={{ uri: book.bookUrl }} style={styles.imageBackGround} />
+				<LinearGradient
+					colors={['rgba(51, 51, 51, 0)', 'rgba(51, 51, 51, 0.95)']}
+					style={styles.linearGradientBox}
+				>
+					<Text style={styles.detailDesc}>{book.bookTitle}</Text>
+				</LinearGradient>
+			</Animated.View>
+		);
+	};
+
+	renderHeadAddress = () => {
+		const location = 'Dinmukhamed Qonayev St 12/1, Астана 010000';
+		const open = 'Пн-Пт: 08:00 - 17:00';
+
+		return (
+			<View style={{ backgroundColor: 'rgba(51, 51, 51, 0.95)' }}>
+				<Text style={styles.subTitle}>Traveler's Coffee</Text>
+				<View style={styles.row}>
+					<Text style={styles.label}>Адрес</Text>
+					<Text style={styles.text}>{location}</Text>
+				</View>
+				<View style={styles.row}>
+					<Text style={styles.label}>Открыто</Text>
+					<Text style={styles.text}>{open}</Text>
+				</View>
+			</View>
+		);
+	};
+
+	renderContent = book => {
+		return (
+			<View>
+				{this.renderHeadAddress()}
+				<View style={styles.boxContent}>
+					<Text style={styles.descTitle}>Описание</Text>
+					<Text style={styles.content}>{book.bookDesc}</Text>
+				</View>
+			</View>
+		);
+	};
+
+	render() {
+		const book = this.props.navigation.getParam('book');
+
+		if (this.state.loading) {
+			return <View />;
+		}
+
+		const { goBack } = this.props.navigation;
+
+		const hitSlop = { top: 15, right: 15, left: 15, bottom: 15 };
+		return (
+			<View style={styles.body}>
+				<ScrollView>
+					{this.renderBanner(book)}
+					<View style={[styles.shareIcon]}>
+						<TouchableOpacity onPress={() => this.onClick(book)}>
+							<Icon
+								style={styles.newsIcons}
+								name={!this.state.isFav ? 'favorite-border' : 'favorite'}
+								size={30}
+								color={this.state.isFav ? 'red' : '#FFF'}
+							/>
+						</TouchableOpacity>
+					</View>
+					{this.renderContent(book)}
+				</ScrollView>
+				<TouchableOpacity
+					style={[styles.fab, { bottom: 15 }]}
+					onPress={() => goBack()}
+					activeOpacity={0}
+					hitSlop={hitSlop}
+				>
+					<Icon
+						color={'#fff'}
+						iconStyle={{ backgroundColor: 'transparent' }}
+						borderRadius={50}
+						backgroundColor={'transparent'}
+						name={'clear'}
+						size={25}
+					/>
+				</TouchableOpacity>
+			</View>
+		);
+	}
 }
