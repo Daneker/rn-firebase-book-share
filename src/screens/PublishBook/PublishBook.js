@@ -7,7 +7,8 @@ import {
 	TouchableOpacity,
 	Text,
 	StyleSheet,
-	Dimensions
+	Dimensions,
+	Alert
 } from 'react-native';
 import books from '../Home/bookArray';
 import LinearGradient from 'react-native-linear-gradient';
@@ -110,14 +111,23 @@ export default class PublishBook extends Component {
 	keyExtractor = (item, index) => index.toString();
 
 	showBook = () => {
-		const { selectedItem } = this.state;
-		this.ref.doc(selectedItem.key).update({
-			bookId: selectedItem.id,
-			title: selectedItem.bookTitle,
-			authors: selectedItem.bookAuthor,
-			imageUrl: selectedItem.bookUrl,
-			isPublished: true
-		});
+		if (this.state.books.length === 0) {
+			Alert.alert(
+				'Добавьте книгу',
+				'Выберите книгу из поиска',
+				[{ text: 'OK', onPress: () => console.log('OK Pressed') }],
+				{ cancelable: true }
+			);
+		} else {
+			const { selectedItem } = this.state;
+			this.ref.doc(selectedItem.key).update({
+				bookId: selectedItem.id,
+				title: selectedItem.bookTitle,
+				authors: selectedItem.bookAuthor,
+				imageUrl: selectedItem.bookUrl,
+				isPublished: true
+			});
+		}
 	};
 
 	render() {

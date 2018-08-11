@@ -28,11 +28,10 @@ export default class FindBook extends React.Component {
 	};
 
 	getBook = async () => {
-		if (this.state.searchText === '') {
-			return;
-		}
+		console.log('ads');
 
 		try {
+			console.log('asdasdasd');
 			const fetchWord = this.state.searchText.replace(' ', '+');
 			const fetchURL = `https://www.googleapis.com/books/v1/volumes?q=${fetchWord}`;
 			const response = await fetch(fetchURL);
@@ -41,13 +40,12 @@ export default class FindBook extends React.Component {
 		} catch (error) {
 			console.log(error);
 		}
-		this.setState({ searchText: '' });
 	};
 
-	searchUpdated(text) {
+	searchUpdated = text => {
 		this.setState({ searchText: text });
 		// const fetchURL = `https://www.googleapis.com/books/v1/volumes?q=${text}
-	}
+	};
 
 	onEditBook = item => {
 		this.props.navigation.navigate('EditScreen', { book: item });
@@ -100,13 +98,13 @@ export default class FindBook extends React.Component {
 						placeholderTextColor="#999"
 						underlineColorAndroid={'transparent'}
 						clearButtonMode={'while-editing'}
-						onChangeText={text => this.searchUpdated(text)}
+						onChangeText={this.searchUpdated}
 						keyboardType="default"
 						returnKeyType="done"
-						onSubmitEditing={() => this.getBook()}
+						onSubmitEditing={this.getBook}
 					/>
 				</View>
-				{this.state.searchText === '' ? null : this.renderScrollView()}
+				{!this.state.searchText && this.renderScrollView()}
 				<TouchableOpacity onPress={this.onWriteBook}>
 					<Text style={styles.btnText}>Нет моей книги</Text>
 				</TouchableOpacity>

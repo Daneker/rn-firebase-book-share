@@ -18,6 +18,7 @@ export default class CategoryDetail extends Component {
 				activeOpacity={0.9}
 				style={styles.panel}
 				onPress={() => this.showBook(item)}
+				disabled={true}
 			>
 				<Image source={{ uri: item.item.bookUrl }} style={styles.imagePanel} />
 				<LinearGradient

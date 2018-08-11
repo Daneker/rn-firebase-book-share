@@ -106,7 +106,7 @@ export default class GenreCafe extends Component {
 		return (
 			<View style={styles.container}>
 				<View style={{ flex: 1, flexDirection: 'column', margin: 1 }}>
-					<Text style={[styles.title, { paddingTop: 50 }]}>Выберите жанр</Text>
+					<Text style={[styles.title, { paddingTop: 5 }]}>Выберите жанр</Text>
 					<SearchableDropdown
 						onTextChange={item => this.setState({ genre: item })}
 						onItemSelect={item => this.setState({ genre: item })}
@@ -137,7 +137,7 @@ export default class GenreCafe extends Component {
 						// resetValue={false}
 						underlineColorAndroid="transparent"
 					/>
-					<Text style={[styles.title, { paddingTop: 50 }]}>
+					<Text style={[styles.title, { paddingTop: 5 }]}>
 						Выберите кофейню
 					</Text>
 					<SearchableDropdown
@@ -166,7 +166,7 @@ export default class GenreCafe extends Component {
 							color: '#222'
 						}}
 						itemsContainerStyle={{
-							maxHeight: 140
+							maxHeight: 40
 						}}
 						items={cafes}
 						defaultIndex={2}

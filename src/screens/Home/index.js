@@ -61,7 +61,6 @@ export default class Home extends Component {
 			this.setState({
 				books: books
 			});
-			console.log(books);
 		});
 	};
 
@@ -80,6 +79,7 @@ export default class Home extends Component {
 
 					this.setState({
 						docID: currentUser.id,
+						currentUser: currentUser,
 						favoritesBooks: currentUser.data.favorites
 					});
 				});
@@ -95,7 +95,8 @@ export default class Home extends Component {
 	showBook = item => {
 		this.props.navigation.navigate('BookDetail', {
 			book: item,
-			favoriteBooks: this.state.favoritesBooks
+			favoriteBooks: this.state.favoritesBooks,
+			currentUser: this.state.currentUser
 		});
 	};
 

@@ -26,6 +26,9 @@ export default class BookDetail extends Component {
 	componentDidMount() {
 		const bookItem = this.props.navigation.getParam('book');
 		const favoritesBooks = this.props.navigation.getParam('favoriteBooks');
+		const currentUser = this.props.navigation.getParam('currentUser');
+
+		console.log(favoritesBooks, 'favoriteBooks+');
 
 		console.log('bookItem', bookItem);
 		console.log('favoritesBooks', favoritesBooks);
@@ -39,21 +42,36 @@ export default class BookDetail extends Component {
 				isFav: true,
 				loading: false,
 				book: bookItem,
-				favoritesBooks: favoritesBooks
+				favoritesBooks: favoritesBooks,
+				currentUser: currentUser
 			});
 		} else {
 			this.setState({
 				isFav: false,
 				loading: false,
 				book: bookItem,
-				favoritesBooks: favoritesBooks
+				favoritesBooks: favoritesBooks,
+				currentUser: currentUser
 			});
 		}
 	}
 
 	addToFav = bookId => {
 		const updatedArray = [...this.state.favoritesBooks, bookId + ''];
-		console.log(updatedArray);
+
+		firebase
+			.firestore()
+			.collection('users')
+			.doc(this.state.currentUser.id)
+			.get()
+			.then(doc => console.log('GetDOC', doc));
+
+		firebase
+			.firestore()
+			.collection('users')
+			.doc(this.state.currentUser.id)
+			.update({ favorites: updatedArray });
+
 		this.setState({ favoritesBooks: updatedArray });
 	};
 
@@ -61,7 +79,11 @@ export default class BookDetail extends Component {
 		const updatedArray = this.state.favoritesBooks.filter(
 			book => book !== bookId + ''
 		);
-		console.log(updatedArray);
+		const docRef = firebase
+			.firestore()
+			.collection('users')
+			.doc(this.state.currentUser.id)
+			.update({ favorites: updatedArray });
 		this.setState({ favoritesBooks: updatedArray });
 	};
 

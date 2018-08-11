@@ -29,9 +29,32 @@ export default class Categories extends Component {
 		user: ''
 	};
 
-	async componentDidMount() {
-		let user = firebase.auth().currentUser;
+	componentDidMount() {
+		this.fetchAllBooks();
+		this.fetchUser();
+	}
 
+	fetchAllBooks = () => {
+		refBooks.onSnapshot(snapshot => {
+			var books = [];
+			snapshot.forEach(doc => {
+				if (doc.data().isPublished) {
+					books.push({
+						data: doc.data(),
+						bookTitle: doc.data().title,
+						bookAuthor: doc.data().authors,
+						bookUrl: doc.data().imageUrl,
+						bookDesc: doc.data().description
+					});
+				}
+			});
+			this.setState({
+				books: books
+			});
+		});
+	};
+
+	fetchUser = () => {
 		firebase.auth().onAuthStateChanged(user => {
 			if (user) {
 				ref.onSnapshot(snapshot => {
@@ -40,9 +63,14 @@ export default class Categories extends Component {
 						data: docSnapshot.data()
 					}));
 
-					const newArray = docs.filter(item => item.data.user === user.uid)[0];
+					const currentUser = docs.filter(
+						item => item.data.user === user.uid
+					)[0];
+
 					this.setState({
-						docs: newArray,
+						docID: currentUser.id,
+						docs: currentUser,
+						favoritesBooks: currentUser.data.favorites,
 						loading: false
 					});
 				});
@@ -50,7 +78,7 @@ export default class Categories extends Component {
 				this.props.navigation.dispatch(resetAction);
 			}
 		});
-	}
+	};
 
 	onLogin = () => {
 		firebase
@@ -67,18 +95,24 @@ export default class Categories extends Component {
 	};
 
 	renderCollectionItem = (item, index) => {
-		return (
-			<TouchableOpacity activeOpacity={0.9} style={styles.panel}>
-				<Image source={{ uri: item.item.url }} style={styles.imagePanel} />
-				<LinearGradient
-					style={styles.linearGradient}
-					colors={['rgba(0,0,0, 0)', 'rgba(0, 0, 0, 0.5 )']}
-				/>
-				<View style={styles.titleView}>
-					<Text style={styles.title}>Название</Text>
-				</View>
-			</TouchableOpacity>
-		);
+		const bookItem = this.state.books.filter(
+			book => book.data.bookId == item.item
+		)[0];
+
+		if (bookItem) {
+			return (
+				<TouchableOpacity activeOpacity={0.9} style={styles.panel}>
+					<Image source={{ uri: bookItem.bookUrl }} style={styles.imagePanel} />
+					<LinearGradient
+						style={styles.linearGradient}
+						colors={['rgba(0,0,0, 0)', 'rgba(0, 0, 0, 0.5 )']}
+					/>
+					<View style={styles.titleView}>
+						<Text style={styles.title}>{bookItem.bookAuthor}</Text>
+					</View>
+				</TouchableOpacity>
+			);
+		}
 	};
 
 	renderStars = () => {
@@ -143,7 +177,7 @@ export default class Categories extends Component {
 					<View style={{ paddingTop: 25 }}>
 						<FlatList
 							showsHorizontalScrollIndicator={false}
-							data={books}
+							data={this.state.favoritesBooks}
 							horizontal={true}
 							keyExtractor={this.keyExtractor}
 							renderItem={this.renderCollectionItem}
